@@ -6,7 +6,6 @@ import se.edu.inclass.task.Task;
 import se.edu.inclass.task.TaskNameComparator;
 
 import java.util.ArrayList;
-import java.util.stream.Collectors;
 
 public class Main {
 
@@ -16,10 +15,16 @@ public class Main {
         DataManager dm = new DataManager("./data/data.txt");
         ArrayList<Task> tasksData = dm.loadData();
 
+        printData(tasksData);
         System.out.println("Printing deadlines");
         printDeadlines(tasksData);
 
         System.out.println("Total number of deadlines: " + countDeadlines(tasksData));
+
+        printDataUsingStreams(tasksData);
+        printDeadlinesUsingStream(tasksData);
+
+        System.out.println("Total number of deadlines using streams: " + countDeadlinesUsingStreams(tasksData));
 
     }
 
@@ -33,10 +38,27 @@ public class Main {
         return count;
     }
 
+    private static int countDeadlinesUsingStreams(ArrayList<Task> tasksData) {
+        System.out.println("Calculating Deaadlings using streams");
+        int count;
+        count = (int) tasksData.stream()
+                .filter((t)-> t instanceof Deadline )
+                .count(); // only allow one final action
+        return count;
+    }
+
     public static void printData(ArrayList<Task> tasksData) {
         for (Task t : tasksData) {
             System.out.println(t);
         }
+    }
+
+    public static void printDataUsingStreams(ArrayList<Task> tasksData) {
+        System.out.println("Printing Data using Stream ");
+        tasksData.stream() //converting into stream
+                // Iterate each data inside and calling println as object
+                .forEach(System.out::println);
+
     }
 
     public static void printDeadlines(ArrayList<Task> tasksData) {
@@ -46,5 +68,13 @@ public class Main {
                 System.out.println(t);
             }
         }
+    }
+
+    public static void printDeadlinesUsingStream(ArrayList<Task> tasksData) {
+        System.out.println("Printing Deadline using Stream ");
+        tasksData.stream() //converting into stream
+                // Choose condition for data to filter
+                .filter((t) -> t instanceof Deadline)
+                .forEach(System.out::println);
     }
 }
