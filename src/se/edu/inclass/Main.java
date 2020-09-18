@@ -40,6 +40,7 @@ public class Main {
     }
 
     public static void printDeadlines(ArrayList<Task> tasksData) {
+        // casting action during the for loop
         for (Task t : tasksData) {
             if (t instanceof Deadline) {
                 System.out.println(t);
